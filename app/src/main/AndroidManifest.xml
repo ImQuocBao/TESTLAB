@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.a19511451_doanngocquocbao_ktth" >
+    package="com.example.a19511451_doanngocquocbao_ktth">
 
     <application
         android:allowBackup="true"
@@ -8,9 +8,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.19511451_DoanNgocQuocBao_KTTH" >
+        android:theme="@style/Theme.19511451_DoanNgocQuocBao_KTTH">
         <activity
-            android:name=".SignUp"
+            android:name=".Edit_course"
+            android:exported="false" />
+        <activity
+            android:name=".Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,12 +22,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Login"
+            android:name=".SignUp"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false" >
-        </activity>
+            android:exported="false"></activity>
     </application>
 
 </manifest>

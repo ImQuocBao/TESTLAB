@@ -1,7 +1,9 @@
 package com.example.a19511451_doanngocquocbao_ktth;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,17 +26,20 @@ public class CourseAdapter extends BaseAdapter {
 
     private Context context;
     private int Layout;
-    private List<Course> todoList;
+    private List<Course> courseList;
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance("https://ktth-686a6-default-rtdb.asia-southeast1.firebasedatabase.app");
+    DatabaseReference myRef = database.getReference("Course");
 
     public CourseAdapter(Context context, int layout, List<Course> todoList) {
         this.context = context;
         Layout = layout;
-        this.todoList = todoList;
+        this.courseList = todoList;
     }
 
     @Override
     public int getCount() {
-        return todoList.size();
+        return courseList.size();
     }
 
     @Override
@@ -55,10 +60,41 @@ public class CourseAdapter extends BaseAdapter {
 
         TextView txtTilte = view.findViewById(R.id.textView5);
         TextView txtPrice = view.findViewById(R.id.textView6);
-        Course item = todoList.get(i);
+        Course item = courseList.get(i);
 
         txtTilte.setText(item.getTitle());
         txtPrice.setText(item.getPrice() + "$");
+
+        ImageView btnRemove = view.findViewById(R.id.btnRemove);
+        btnRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myRef.child(courseList.get(i).getId() + "").removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("Remove Success", "");
+                        } else {
+                            Log.d("Error something wrong!!!", "");
+                        }
+                    }
+                });
+            }
+        });
+
+        ImageView btnEdit = view.findViewById(R.id.btnEdit);
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, Edit_course.class);
+                Bundle b = new Bundle();
+                b.putInt("id", courseList.get(i).getId());
+                b.putString("title", courseList.get(i).getTitle());
+                b.putString("price", courseList.get(i).getPrice());
+                intent.putExtras(b);
+                context.startActivity(intent);
+            }
+        });
 
         return view;
     }

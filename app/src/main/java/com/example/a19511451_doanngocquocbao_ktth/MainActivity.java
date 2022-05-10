@@ -19,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     ListView lvTodo;
@@ -42,10 +43,11 @@ public class MainActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int length = arrCourse.size();
+                Random rnd = new Random();
+                int number = rnd.nextInt(999999);
 
                 Course course = new Course(edtTitle.getText().toString(), edtPrice.getText().toString());
-                course.setId(length);
+                course.setId(number);
 
                 String pathOject = String.valueOf(course.getId());
 
