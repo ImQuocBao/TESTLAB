@@ -9,8 +9,8 @@
     <ListView
         android:id="@+id/lvMain"
         android:layout_width="412dp"
-        android:layout_height="476dp"
-        android:layout_marginTop="80dp"
+        android:layout_height="443dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,23 +33,37 @@
         android:id="@+id/btnAdd"
         android:layout_width="347dp"
         android:layout_height="63dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/custom_button"
         android:text="Add New Course"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtPrice" />
+
+    <EditText
+        android:id="@+id/edtTitle"
+        android:layout_width="341dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/custom_edt"
+        android:ems="10"
+        android:hint="Name Course"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="Categories"
-        android:textColor="#000000"
-        android:textSize="18dp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/btnAdd"
-        app:layout_constraintTop_toBottomOf="@+id/btnAdd" />
+    <EditText
+        android:id="@+id/edtPrice"
+        android:layout_width="341dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/custom_edt"
+        android:ems="10"
+        android:hint="Price"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtTitle" />
 </androidx.constraintlayout.widget.ConstraintLayout>
