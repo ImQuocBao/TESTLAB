@@ -2,24 +2,23 @@ package com.example.a19511451_doanngocquocbao_ktth;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.example.a19511451_doanngocquocbao_ktth.database.CourseDatabase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
+import com.example.a19511451_doanngocquocbao_ktth.entity.Course;
 import java.util.List;
 
 public class CourseAdapter extends BaseAdapter {
@@ -67,8 +66,11 @@ public class CourseAdapter extends BaseAdapter {
 
         ImageView btnRemove = view.findViewById(R.id.btnRemove);
         btnRemove.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
+                CourseDatabase.getInstance(view.getContext()).courseDao().delete(courseList.get(i));
+
                 myRef.child(courseList.get(i).getId() + "").removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

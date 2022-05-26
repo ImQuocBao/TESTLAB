@@ -1,20 +1,23 @@
-package com.example.a19511451_doanngocquocbao_ktth;
+package com.example.a19511451_doanngocquocbao_ktth.entity;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "course")
 public class Course {
 
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "uid")
     private int id;
-    private String title, price;
+
+    private String title;
+    private String price;
 
     public Course() {
     }
 
     public Course(String title, String price) {
-        this.title = title;
-        this.price = price;
-    }
-
-    public Course(int id, String title, String price) {
-        this.id = id;
         this.title = title;
         this.price = price;
     }

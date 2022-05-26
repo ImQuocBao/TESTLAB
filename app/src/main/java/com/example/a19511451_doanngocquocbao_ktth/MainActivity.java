@@ -4,12 +4,19 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.a19511451_doanngocquocbao_ktth.dao.CourseDao;
+import com.example.a19511451_doanngocquocbao_ktth.database.CourseDatabase;
+import com.example.a19511451_doanngocquocbao_ktth.database.UserDatabase;
+import com.example.a19511451_doanngocquocbao_ktth.database.UserDatabase_Impl;
+import com.example.a19511451_doanngocquocbao_ktth.entity.Course;
+import com.example.a19511451_doanngocquocbao_ktth.entity.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -38,18 +45,26 @@ public class MainActivity extends AppCompatActivity {
         EditText edtTitle = findViewById(R.id.edtTitle);
         EditText edtPrice = findViewById(R.id.edtPrice);
 
+        for (User user: UserDatabase.getInstance(this).userDao().getAll()
+        ) {
+            Log.e("USER", user.email + " Time Login : " + user.getTimeLogin());
+        }
 
         Button btnAdd = findViewById(R.id.btnAdd);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Random rnd = new Random();
-                int number = rnd.nextInt(999999);
-
                 Course course = new Course(edtTitle.getText().toString(), edtPrice.getText().toString());
-                course.setId(number);
-
-                String pathOject = String.valueOf(course.getId());
+//                // Add To Local
+                CourseDatabase.getInstance(MainActivity.this).courseDao().insertUser(course);
+                String pathOject ="";
+                int uid = 0;
+                for (Course course2: CourseDatabase.getInstance(MainActivity.this).courseDao().getAll()
+                     ) {
+                    pathOject = String.valueOf(course2.getId());
+                    uid = course2.getId();
+                }
+                course.setId(uid);
 
                 myRef.child(pathOject).setValue(course).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -78,10 +93,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ArrayList<Course> listTodo = new ArrayList<>();
-                for (DataSnapshot data : snapshot.getChildren()) {
-                    Course course = data.getValue(Course.class);
-                    listTodo.add(course);
+
+                if(CourseDatabase.getInstance(MainActivity.this).courseDao().getAll().size() < 1) {
+                    for (DataSnapshot data : snapshot.getChildren()) {
+                        Course course = data.getValue(Course.class);
+                        CourseDatabase.getInstance(MainActivity.this).courseDao().insertUser(course);
+                        listTodo.add(course);
+                    }
+                } else {
+//                    for (DataSnapshot data : snapshot.getChildren()) {
+//                        Course course = data.getValue(Course.class);
+//
+//                        listTodo.add(course);
+//                    }
+                    for (Course course: CourseDatabase.getInstance(MainActivity.this).courseDao().getAll()) {
+                        listTodo.add(course);
+                    }
                 }
+
                 arrCourse.clear();
                 arrCourse.addAll(listTodo);
                 adapter.notifyDataSetChanged();
@@ -89,7 +118,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
     }
